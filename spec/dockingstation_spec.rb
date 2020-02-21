@@ -6,13 +6,13 @@ describe DockingStation do
      # expect{DockingStation.new.release_bike}.not_to raise_error
   end
   it "releases working bike" do
-    expect(subject.release_bike).to be_working
+    bike = Bike.new
+    expect(bike).to be_working
   end
 
   it "responds to 'dock(bike)' with 1 argument" do
     expect(subject).to respond_to(:dock).with(1).argument
     # expect(DockingStation.new).to respond_to.(:dock).with(1).argument
-
   end
 
   it "docks released bike" do
@@ -20,4 +20,19 @@ describe DockingStation do
     expect(subject.dock(bike)).to eq bike
     # expect(DockingStation.new).to respond_to(:bike)
   end
-end
+
+  describe '#release_bike' do
+    it 'releases a bike' do
+      bike = Bike.new
+      subject.dock(bike)
+      # we want to release the bike we docked
+      expect(subject.release_bike).to eq bike
+    end
+
+    it "raises an error when there are no bikes available" do
+      expect { subject.release_bike }.to raise_error "No bikes available"  
+      end
+    end
+
+
+  end
