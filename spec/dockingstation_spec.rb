@@ -1,8 +1,16 @@
 require "dockingstation"
 
 describe DockingStation do
-  let(:bike) { double :bike, working?: true}
-  let(:broken_bike) { double :bike, working?: false}
+  let(:bike) { double :bike }
+  let(:broken_bike) { double :bike }
+  before(:each) do
+    allow(bike).to receive(:working?) { true }
+    allow(broken_bike).to receive(:working?) { false }
+  end
+
+
+
+
 
   let(:docking_station) { described_class.new }
 
@@ -60,9 +68,16 @@ describe DockingStation do
       expect { subject.release_bike }.to raise_error "No bikes available"
     end
 
-    it "raises an error when bike is broken" do
+    it "raises an error when only bikes available are broken" do
       docking_station.dock(broken_bike)
-      expect { docking_station.release_bike }.to raise_error "Bike is broken"
+      expect { docking_station.release_bike }.to raise_error "No working bikes available"
+    end
+
+    it "skips the broken bike and releases the working bike" do
+      docking_station.dock(bike)
+      docking_station.dock(broken_bike)
+      expect(docking_station.release_bike).to eq(bike)
+      p docking_station
     end
   end
 end

@@ -13,8 +13,13 @@ class DockingStation
 
   def release_bike
     fail "No bikes available" if empty?
-    fail "Bike is broken" if @bikesstored[-1].working? == false
-    @bikesstored.pop
+    # fail "No working bikes available" if @bikesstored[-1].working? == false
+    @bikesstored.each_with_index do |bike, index|
+      if bike.working?
+        return @bikesstored.slice!(index)
+      end
+    end
+    fail "No working bikes available" 
   end
 
   def dock(bike)
