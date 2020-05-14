@@ -4,10 +4,21 @@ describe DockingStation do
   let(:bike) { double :bike}
   let(:docking_station) { described_class.new }
 
+  describe "Capacity:" do
+    it "has a default capacity" do
+      expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+    end
 
-  it "has a default capacity" do
-    expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+    it "has varaible capacity " do
+      docking_station_2 = DockingStation.new(50)
+      expect(docking_station_2.capacity).to eq(50)
+    end
+    
+
   end
+
+
+
 
 
   describe "#dock" do
@@ -24,7 +35,7 @@ describe DockingStation do
 
     it "raises an error when docking station has no space for a new bike" do
       
-      DockingStation::DEFAULT_CAPACITY.times { docking_station.dock bike}
+      docking_station.capacity.times { docking_station.dock bike}
       expect{docking_station.dock(bike)}.to raise_error "Docking station full"
     end
 
