@@ -4,6 +4,12 @@ describe DockingStation do
   let(:bike) { double :bike}
   let(:docking_station) { described_class.new }
 
+
+  it "has a default capacity" do
+    expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+  end
+
+
   describe "#dock" do
     it "responds to 'dock(bike)' with 1 argument" do
       expect(docking_station).to respond_to(:dock).with(1).argument
