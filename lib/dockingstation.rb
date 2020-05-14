@@ -13,6 +13,7 @@ class DockingStation
 
   def release_bike
     fail "No bikes available" if empty?
+    fail "Bike is broken" if @bikesstored[-1].working? == false
     @bikesstored.pop
   end
 

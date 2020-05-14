@@ -1,7 +1,9 @@
 require "dockingstation"
 
 describe DockingStation do
-  let(:bike) { double :bike}
+  let(:bike) { double :bike, working?: true}
+  let(:broken_bike) { double :bike, working?: false}
+
   let(:docking_station) { described_class.new }
 
   describe "Capacity:" do
@@ -13,7 +15,7 @@ describe DockingStation do
       docking_station_2 = DockingStation.new(50)
       expect(docking_station_2.capacity).to eq(50)
     end
-    
+
 
   end
 
@@ -57,6 +59,10 @@ describe DockingStation do
     it "raises an error when there are no bikes available" do
       expect { subject.release_bike }.to raise_error "No bikes available"
     end
-    
+
+    it "raises an error when bike is broken" do
+      docking_station.dock(broken_bike)
+      expect { docking_station.release_bike }.to raise_error "Bike is broken"
+    end
   end
 end
